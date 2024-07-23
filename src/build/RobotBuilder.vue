@@ -2,6 +2,7 @@
   <div>
     <div class="top-row">
       <div class="top part">
+        <div class="part-title">{{ selectedParts.head.title }}</div>
         <img :src="selectedParts.head.imageUrl" alt="head" />
         <button @click="selectPreviousHead()" class="prev-selector">&#9668;</button>
         <button @click="selectNextHead()" class="next-selector">&#9658;</button>
@@ -211,6 +212,13 @@ export default {
   left: 24px;
   width: 179px;
   height: 25px;
+}
+
+.part-title {
+  position: absolute;
+  top: -25px;
+  text-align: center;
+  width: 100%;
 }
 
 .right .next-selector {
