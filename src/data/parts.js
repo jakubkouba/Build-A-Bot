@@ -37,6 +37,7 @@ const parts = {
       imageUrl: images('./head-single-eye.png'),
       type: 'heads',
       cost: 750.0,
+      onSale: true,
     },
     {
       id: 5,
