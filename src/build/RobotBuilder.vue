@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="content">
+    <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
       <div class="top part">
         <div class="part-title">
@@ -35,6 +36,19 @@
         <button @click="selectNextBase" class="next-selector">&#9658;</button>
       </div>
     </div>
+    <h1>Cart</h1>
+    <table>
+      <thead>
+        <th>Title</th>
+        <th>Cost</th>
+      </thead>
+      <tbody>
+        <tr v-for="(parts, index) in cart" :key="index">
+          <td>{{ parts.head.title }}</td>
+          <td>{{ parts.cost }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -61,6 +75,7 @@ export default {
       baseIndex: 0,
       leftArmIndex: 0,
       rightArmIndex: 0,
+      cart: [],
     };
   },
   computed: {
@@ -75,6 +90,15 @@ export default {
     },
   },
   methods: {
+    addToCart() {
+      const cost = this.selectedParts.head.cost +
+        this.selectedParts.leftArm.cost +
+        this.selectedParts.torso.cost +
+        this.selectedParts.rightArm.cost +
+        this.selectedParts.base.cost;
+      this.cart.push({ ...this.selectedParts, cost });
+      console.log(this.cart.length);
+    },
     selectNextHead() {
       this.headIndex = getNextValidIndex(this.headIndex, this.availableParts.heads.length);
     },
@@ -230,5 +254,17 @@ export default {
 
 .right .next-selector {
   right: -3px;
+}
+
+.content {
+  position: relative;
+}
+
+.add-to-cart {
+  position: absolute;
+  right: 30px;
+  width: 220px;
+  padding: 3px;
+  font-size: 16px;
 }
 </style>
