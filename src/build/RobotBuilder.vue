@@ -45,7 +45,7 @@
       <tbody>
         <tr v-for="(parts, index) in cart" :key="index">
           <td>{{ parts.head.title }}</td>
-          <td>{{ parts.cost }}</td>
+          <td class="cost">{{ toCurrency(parts.cost) }}</td>
         </tr>
       </tbody>
     </table>
@@ -54,6 +54,7 @@
 
 <script>
 import parts from '../data/parts';
+import { toCurrency } from '../shared/formatters';
 
 function getNextValidIndex(index, length) {
   const incrementedIndex = index + 1;
@@ -90,6 +91,7 @@ export default {
     },
   },
   methods: {
+    toCurrency,
     addToCart() {
       const cost = this.selectedParts.head.cost +
         this.selectedParts.leftArm.cost +
@@ -266,5 +268,16 @@ export default {
   width: 220px;
   padding: 3px;
   font-size: 16px;
+}
+
+td,
+th {
+  text-align: left;
+  padding: 5px;
+  padding-right: 20px;
+}
+
+.cost {
+  text-align: right;
 }
 </style>
