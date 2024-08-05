@@ -53,87 +53,107 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import parts from '../data/parts';
 import { toCurrency } from '../shared/formatters';
 
-function getNextValidIndex(index, length) {
-  const incrementedIndex = index + 1;
-  return incrementedIndex > length - 1 ? 0 : incrementedIndex;
-}
-
-function getPreviousValidIndex(index, length) {
-  const decrementedIndex = index - 1;
-  return decrementedIndex < 0 ? length - 1 : decrementedIndex;
-}
-
 export default {
   name: 'RobotBuilder',
-  data() {
-    return {
-      availableParts: parts,
-      headIndex: 0,
-      torsoIndex: 0,
-      baseIndex: 0,
-      leftArmIndex: 0,
-      rightArmIndex: 0,
-      cart: [],
+  setup() {
+    const getNextValidIndex = (index, length) => {
+      const incrementedIndex = index + 1;
+      return incrementedIndex > length - 1 ? 0 : incrementedIndex;
     };
-  },
-  computed: {
-    selectedParts() {
-      return {
-        head: this.availableParts.heads[this.headIndex],
-        torso: this.availableParts.torsos[this.torsoIndex],
-        base: this.availableParts.bases[this.baseIndex],
-        leftArm: this.availableParts.arms[this.leftArmIndex],
-        rightArm: this.availableParts.arms[this.rightArmIndex],
-      };
-    },
-  },
-  methods: {
-    toCurrency,
-    addToCart() {
-      const cost = this.selectedParts.head.cost +
-        this.selectedParts.leftArm.cost +
-        this.selectedParts.torso.cost +
-        this.selectedParts.rightArm.cost +
-        this.selectedParts.base.cost;
-      this.cart.push({ ...this.selectedParts, cost });
-      console.log(this.cart.length);
-    },
-    selectNextHead() {
-      this.headIndex = getNextValidIndex(this.headIndex, this.availableParts.heads.length);
-    },
-    selectPreviousHead() {
-      this.headIndex = getPreviousValidIndex(this.headIndex, this.availableParts.heads.length);
-    },
-    selectPreviousTorso() {
-      this.torsoIndex = getPreviousValidIndex(this.torsoIndex, this.availableParts.torsos.length);
-    },
-    selectNextTorso() {
-      this.torsoIndex = getNextValidIndex(this.torsoIndex, this.availableParts.torsos.length);
-    },
-    selectPreviousBase() {
-      this.baseIndex = getPreviousValidIndex(this.baseIndex, this.availableParts.bases.length);
-    },
-    selectNextBase() {
-      this.baseIndex = getNextValidIndex(this.baseIndex, this.availableParts.bases.length);
-    },
-    selectPreviousLeftArm() {
-      this.leftArmIndex = getPreviousValidIndex(this.leftArmIndex, this.availableParts.arms.length);
-    },
-    selectNextLeftArm() {
-      this.leftArmIndex = getNextValidIndex(this.leftArmIndex, this.availableParts.arms.length);
-    },
-    selectPreviousRightArm() {
-      this.rightArmIndex = getPreviousValidIndex(
-        this.rightArmIndex,
-        this.availableParts.arms.length,
+
+    const getPreviousValidIndex = (index, length) => {
+      const decrementedIndex = index - 1;
+      return decrementedIndex < 0 ? length - 1 : decrementedIndex;
+    };
+
+    const availableParts = parts;
+    let headIndex = 0;
+    let torsoIndex = 0;
+    let baseIndex = 0;
+    let leftArmIndex = 0;
+    let rightArmIndex = 0;
+    const cart = [];
+
+    const selectedParts = computed(() => ({
+      head: availableParts.heads[headIndex],
+      torso: availableParts.torsos[torsoIndex],
+      base: availableParts.bases[baseIndex],
+      leftArm: availableParts.arms[leftArmIndex],
+      rightArm: availableParts.arms[rightArmIndex],
+    }));
+
+    const addToCart = () => {
+      const cost = selectedParts.value.head.cost +
+        selectedParts.value.leftArm.cost +
+        selectedParts.value.torso.cost +
+        selectedParts.value.rightArm.cost +
+        selectedParts.value.base.cost;
+      cart.push({ ...selectedParts, cost });
+      console.log(cart.length);
+    };
+
+    // #region Part Selection Methods
+    const selectNextHead = () => {
+      headIndex = getNextValidIndex(headIndex, availableParts.heads.length);
+    };
+    const selectPreviousHead = () => {
+      headIndex = getPreviousValidIndex(headIndex, availableParts.heads.length);
+    };
+    const selectPreviousTorso = () => {
+      torsoIndex = getPreviousValidIndex(torsoIndex, availableParts.torsos.length);
+    };
+    const selectNextTorso = () => {
+      torsoIndex = getNextValidIndex(torsoIndex, availableParts.torsos.length);
+    };
+    const selectPreviousBase = () => {
+      baseIndex = getPreviousValidIndex(baseIndex, availableParts.bases.length);
+    };
+    const selectNextBase = () => {
+      baseIndex = getNextValidIndex(baseIndex, availableParts.bases.length);
+    };
+    const selectPreviousLeftArm = () => {
+      leftArmIndex = getPreviousValidIndex(leftArmIndex, availableParts.arms.length);
+    };
+    const selectNextLeftArm = () => {
+      leftArmIndex = getNextValidIndex(leftArmIndex, availableParts.arms.length);
+    };
+    const selectPreviousRightArm = () => {
+      rightArmIndex = getPreviousValidIndex(
+        rightArmIndex,
+        availableParts.arms.length,
       );
-    },
-    selectNextRightArm() {
-      this.rightArmIndex = getNextValidIndex(this.rightArmIndex, this.availableParts.arms.length);
-    },
+    };
+    const selectNextRightArm = () => {
+      rightArmIndex = getNextValidIndex(rightArmIndex, availableParts.arms.length);
+    };
+    // #region Part Selection Methods
+
+    return {
+      availableParts,
+      headIndex,
+      torsoIndex,
+      baseIndex,
+      leftArmIndex,
+      rightArmIndex,
+      cart,
+      selectedParts,
+      toCurrency,
+      addToCart,
+      selectNextHead,
+      selectPreviousHead,
+      selectPreviousTorso,
+      selectNextTorso,
+      selectPreviousBase,
+      selectNextBase,
+      selectPreviousLeftArm,
+      selectNextLeftArm,
+      selectPreviousRightArm,
+      selectNextRightArm,
+    };
   },
 };
 </script>
