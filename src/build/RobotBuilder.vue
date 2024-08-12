@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import parts from '../data/parts';
 import { toCurrency } from '../shared/formatters';
 
@@ -66,6 +66,8 @@ const getPreviousValidIndex = (index, length) => {
   const decrementedIndex = index - 1;
   return decrementedIndex < 0 ? length - 1 : decrementedIndex;
 };
+
+onMounted(() => console.log('onMounted: executed'));
 
 const availableParts = parts;
 const headIndex = ref(0);
