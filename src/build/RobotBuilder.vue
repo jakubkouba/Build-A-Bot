@@ -133,7 +133,7 @@ const selectNextRightArm = () => {
 // #region Part Selection Methods
 </script>
 
-<style>
+<style scoped lang="scss">
 .part {
   position: relative;
   width: 200px;
@@ -149,8 +149,10 @@ const selectNextRightArm = () => {
   border: 3px solid red;
 }
 
-.part img {
-  width: 200px;
+.part {
+  img {
+    width: 200px;
+  }
 }
 
 .top-row {
