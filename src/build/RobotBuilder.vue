@@ -2,7 +2,7 @@
   <div class="content">
     <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
-      <div :class="[saleBorder, 'top', 'part']">
+      <div class="top part">
         <div class="part-title">
           {{ selectedParts.head.title }}
           <span v-if="selectedParts.head.onSale" class="sale">Sale !!!</span>
@@ -85,7 +85,7 @@ const selectedParts = computed(() => ({
   rightArm: availableParts.arms[rightArmIndex.value],
 }));
 
-const saleBorder = computed(() => (selectedParts.value.head.onSale ? 'sale-border' : ''));
+const headBorderColor = computed(() => (selectedParts.value.head.onSale ? 'red' : 'gray'));
 
 const addToCart = () => {
   const cost = selectedParts.value.head.cost +
@@ -138,7 +138,11 @@ const selectNextRightArm = () => {
   position: relative;
   width: 200px;
   height: 200px;
-  border: 3px solid #aaa;
+  border: 3px solid gray;
+}
+
+.top.part {
+  border: 3px solid v-bind(headBorderColor);
 }
 
 .sale-border {
