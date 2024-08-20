@@ -2,39 +2,19 @@
   <div class="content">
     <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
-      <div class="top part">
-        <div class="part-title">
-          {{ selectedParts.head.title }}
-          <span v-if="selectedParts.head.onSale" class="sale">Sale !!!</span>
-        </div>
-        <img :src="selectedParts.head.imageUrl" alt="head" />
-        <button @click="selectPreviousHead()" class="prev-selector">&#9668;</button>
-        <button @click="selectNextHead()" class="next-selector">&#9658;</button>
+      <div class="part-title">
+        {{ selectedParts.head.title }}
+        <span v-if="selectedParts.head.onSale" class="sale">Sale !!!</span>
       </div>
+      <PartSelector/>
     </div>
     <div class="middle-row">
-      <div class="left part">
-        <img :src="selectedParts.leftArm.imageUrl" alt="left arm" />
-        <button @click="selectPreviousLeftArm()" class="prev-selector">&#9650;</button>
-        <button @click="selectNextLeftArm()" class="next-selector">&#9660;</button>
-      </div>
-      <div class="center part">
-        <img :src="selectedParts.torso.imageUrl" alt="torso" />
-        <button @click="selectPreviousTorso()" class="prev-selector">&#9668;</button>
-        <button @click="selectNextTorso()" class="next-selector">&#9658;</button>
-      </div>
-      <div class="right part">
-        <img :src="selectedParts.rightArm.imageUrl" alt="right arm" />
-        <button @click="selectPreviousRightArm()" class="prev-selector">&#9650;</button>
-        <button @click="selectNextRightArm()" class="next-selector">&#9660;</button>
-      </div>
+      <PartSelector/>
+      <PartSelector/>
+      <PartSelector/>
     </div>
     <div class="bottom-row">
-      <div class="bottom part">
-        <img :src="selectedParts.base.imageUrl" alt="base" />
-        <button @click="selectPreviousBase()" class="prev-selector">&#9668;</button>
-        <button @click="selectNextBase" class="next-selector">&#9658;</button>
-      </div>
+      <PartSelector/>
     </div>
     <h1>Cart</h1>
     <table>
@@ -54,36 +34,22 @@
 
 <script setup>
 import { computed, ref, onMounted } from 'vue';
-import parts from '../data/parts';
+// import parts from '../data/parts';
 import { toCurrency } from '../shared/formatters';
-
-const getNextValidIndex = (index, length) => {
-  const incrementedIndex = index + 1;
-  return incrementedIndex > length - 1 ? 0 : incrementedIndex;
-};
-
-const getPreviousValidIndex = (index, length) => {
-  const decrementedIndex = index - 1;
-  return decrementedIndex < 0 ? length - 1 : decrementedIndex;
-};
+import PartSelector from './PartSelector.vue';
 
 onMounted(() => console.log('onMounted: executed'));
 
-const availableParts = parts;
-const headIndex = ref(0);
-const torsoIndex = ref(0);
-const baseIndex = ref(0);
-const leftArmIndex = ref(0);
-const rightArmIndex = ref(0);
+// const availableParts = parts;
 const cart = ref([]);
 
-const selectedParts = computed(() => ({
-  head: availableParts.heads[headIndex.value],
-  torso: availableParts.torsos[torsoIndex.value],
-  base: availableParts.bases[baseIndex.value],
-  leftArm: availableParts.arms[leftArmIndex.value],
-  rightArm: availableParts.arms[rightArmIndex.value],
-}));
+const selectedParts = ref({
+  head: {},
+  torso: {},
+  base: {},
+  leftArm: {},
+  rightArm: {},
+});
 
 const headBorderColor = computed(() => (selectedParts.value.head.onSale ? 'red' : 'gray'));
 
@@ -95,42 +61,6 @@ const addToCart = () => {
     selectedParts.value.base.cost;
   cart.value.push({ ...selectedParts.value, cost });
 };
-
-// #region Part Selection Methods
-const selectNextHead = () => {
-  headIndex.value = getNextValidIndex(headIndex.value, availableParts.heads.length);
-};
-const selectPreviousHead = () => {
-  headIndex.value = getPreviousValidIndex(headIndex.value, availableParts.heads.length);
-};
-const selectPreviousTorso = () => {
-  torsoIndex.value = getPreviousValidIndex(torsoIndex.value, availableParts.torsos.length);
-};
-const selectNextTorso = () => {
-  torsoIndex.value = getNextValidIndex(torsoIndex.value, availableParts.torsos.length);
-};
-const selectPreviousBase = () => {
-  baseIndex.value = getPreviousValidIndex(baseIndex.value, availableParts.bases.length);
-};
-const selectNextBase = () => {
-  baseIndex.value = getNextValidIndex(baseIndex.value, availableParts.bases.length);
-};
-const selectPreviousLeftArm = () => {
-  leftArmIndex.value = getPreviousValidIndex(leftArmIndex.value, availableParts.arms.length);
-};
-const selectNextLeftArm = () => {
-  leftArmIndex.value = getNextValidIndex(leftArmIndex.value, availableParts.arms.length);
-};
-const selectPreviousRightArm = () => {
-  rightArmIndex.value = getPreviousValidIndex(
-    rightArmIndex.value,
-    availableParts.arms.length,
-  );
-};
-const selectNextRightArm = () => {
-  rightArmIndex.value = getNextValidIndex(rightArmIndex.value, availableParts.arms.length);
-};
-// #region Part Selection Methods
 </script>
 
 <style scoped lang="scss">
