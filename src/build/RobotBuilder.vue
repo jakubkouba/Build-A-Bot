@@ -6,15 +6,15 @@
         {{ selectedParts.head.title }}
         <span v-if="selectedParts.head.onSale" class="sale">Sale !!!</span>
       </div>
-      <PartSelector/>
+      <PartSelector :parts="availableParts.heads" position="top" />
     </div>
     <div class="middle-row">
-      <PartSelector/>
-      <PartSelector/>
-      <PartSelector/>
+      <PartSelector :parts="availableParts.arms" position="left"/>
+      <PartSelector :parts="availableParts.torsos" position="center"/>
+      <PartSelector :parts="availableParts.arms" position="right"/>
     </div>
     <div class="bottom-row">
-      <PartSelector/>
+      <PartSelector :parts="availableParts.bases" position="bottom"/>
     </div>
     <h1>Cart</h1>
     <table>
@@ -34,13 +34,13 @@
 
 <script setup>
 import { computed, ref, onMounted } from 'vue';
-// import parts from '../data/parts';
+import parts from '../data/parts';
 import { toCurrency } from '../shared/formatters';
 import PartSelector from './PartSelector.vue';
 
 onMounted(() => console.log('onMounted: executed'));
 
-// const availableParts = parts;
+const availableParts = parts;
 const cart = ref([]);
 
 const selectedParts = ref({

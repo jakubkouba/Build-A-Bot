@@ -1,5 +1,5 @@
 <template>
-  <div class="part">
+  <div class="part" :class="position">
     <img :src="selectedPart.imageUrl" alt="left arm" />
     <button @click="selectPreviousPart()" class="prev-selector"></button>
     <button @click="selectNextPart()" class="next-selector"></button>
@@ -8,11 +8,10 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import parts from '../data/parts';
 
-const availableParts = parts.heads;
+const props = defineProps(['parts', 'position']);
 const selectedPartIndex = ref(0);
-const selectedPart = computed(() => availableParts[selectedPartIndex.value]);
+const selectedPart = computed(() => props.parts[selectedPartIndex.value]);
 
 const getNextValidIndex = (index, length) => {
   const incrementedIndex = index + 1;
@@ -27,14 +26,14 @@ const getPreviousValidIndex = (index, length) => {
 const selectPreviousPart = () => {
   selectedPartIndex.value = getPreviousValidIndex(
     selectedPartIndex.value,
-    parts.length,
+    props.parts.length,
   );
 };
 
 const selectNextPart = () => {
   selectedPartIndex.value = getNextValidIndex(
     selectedPartIndex.value,
-    parts.length,
+    props.parts.length,
   );
 };
 
