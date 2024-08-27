@@ -20,8 +20,12 @@ const props = defineProps({
     validator: (value) => ['top', 'left', 'right', 'center', 'bottom'].includes(value),
   },
 });
+
+const emit = defineEmits(['partSelected']);
 const selectedPartIndex = ref(0);
 const selectedPart = computed(() => props.parts[selectedPartIndex.value]);
+
+emit('partSelected', selectedPart);
 
 const getNextValidIndex = (index, length) => {
   const incrementedIndex = index + 1;
@@ -38,6 +42,9 @@ const selectPreviousPart = () => {
     selectedPartIndex.value,
     props.parts.length,
   );
+
+  emit('partSelected', selectedPart);
+  console.log(selectedPart.value);
 };
 
 const selectNextPart = () => {
@@ -45,6 +52,9 @@ const selectNextPart = () => {
     selectedPartIndex.value,
     props.parts.length,
   );
+
+  emit('partSelected', selectedPart);
+  console.log(selectedPart.value);
 };
 
 </script>

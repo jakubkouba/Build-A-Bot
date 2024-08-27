@@ -6,15 +6,30 @@
         {{ selectedParts.head.title }}
         <span v-if="selectedParts.head.onSale" class="sale">Sale !!!</span>
       </div>
-      <PartSelector :parts="availableParts.heads" position="top" />
+      <PartSelector :parts="availableParts.heads"
+        position="top"
+        @partSelected="part => selectedParts.head = part"
+      />
     </div>
     <div class="middle-row">
-      <PartSelector :parts="availableParts.arms" position="left"/>
-      <PartSelector :parts="availableParts.torsos" position="center"/>
-      <PartSelector :parts="availableParts.arms" position="right"/>
+      <PartSelector :parts="availableParts.arms"
+        position="left"
+        @partSelected="part => selectedParts.leftArm = part"
+      />
+      <PartSelector :parts="availableParts.torsos"
+        position="center"
+        @partSelected="part => selectedParts.torso = part"
+      />
+      <PartSelector :parts="availableParts.arms"
+        position="right"
+        @partSelected="part => selectedParts.rightArm = part"
+      />
     </div>
     <div class="bottom-row">
-      <PartSelector :parts="availableParts.bases" position="bottom"/>
+      <PartSelector :parts="availableParts.bases"
+        position="bottom"
+        @partSelected="part => selectedParts.base = part"
+      />
     </div>
     <h1>Cart</h1>
     <table>
@@ -60,6 +75,7 @@ const addToCart = () => {
     selectedParts.value.rightArm.cost +
     selectedParts.value.base.cost;
   cart.value.push({ ...selectedParts.value, cost });
+  console.log(cart.value);
 };
 </script>
 
