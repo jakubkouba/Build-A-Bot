@@ -1,6 +1,21 @@
 <template>
   <div class="content">
-    <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
+    <div class="preview">
+      <div class="preview-content">
+        <div class="top-row">
+          <img :src="selectedParts.head.imageUrl" alt="robot-head"/>
+        </div>
+        <div class="middle-row">
+          <img :src="selectedParts.leftArm.imageUrl" class="rotate-left" alt="robot-left-arm"/>
+          <img :src="selectedParts.torso.imageUrl" alt="robot-torso"/>
+          <img :src="selectedParts.rightArm.imageUrl" class="rotate-right" alt="robot-right-arm"/>
+        </div>
+        <div class="bottom-row">
+          <img :src="selectedParts.base.imageUrl" alt="robot-base"/>
+        </div>
+      </div>
+      <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
+    </div>
     <div class="top-row">
       <div class="part-title">
         {{ selectedParts.head.title }}
@@ -213,10 +228,35 @@ const addToCart = () => {
   position: relative;
 }
 
+.preview {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  width: 310px;
+  height: 310px;
+  padding: 5px;
+}
+
+.preview-content {
+  border: 1px solid #999;
+}
+
+.preview img {
+  width: 70px;
+  height: 70px;
+}
+
+.rotate-right {
+  transform: rotate(90deg);
+}
+
+.rotate-left {
+  transform: rotate(-90deg);
+}
+
 .add-to-cart {
   position: absolute;
-  right: 30px;
-  width: 220px;
+  width: 310px;
   padding: 3px;
   font-size: 16px;
 }

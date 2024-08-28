@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onUpdated } from 'vue';
 
 const props = defineProps({
   parts: {
@@ -26,6 +26,7 @@ const selectedPartIndex = ref(0);
 const selectedPart = computed(() => props.parts[selectedPartIndex.value]);
 
 emit('partSelected', selectedPart);
+onUpdated(() => emit('partSelected', selectedPart));
 
 const getNextValidIndex = (index, length) => {
   const incrementedIndex = index + 1;
@@ -43,7 +44,6 @@ const selectPreviousPart = () => {
     props.parts.length,
   );
 
-  emit('partSelected', selectedPart);
   console.log(selectedPart.value);
 };
 
@@ -53,7 +53,6 @@ const selectNextPart = () => {
     props.parts.length,
   );
 
-  emit('partSelected', selectedPart);
   console.log(selectedPart.value);
 };
 
