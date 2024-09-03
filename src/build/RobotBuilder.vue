@@ -1,20 +1,22 @@
 <template>
   <div class="content">
     <div class="preview">
-      <div class="preview-content">
-        <div class="top-row">
-          <img :src="selectedParts.head.imageUrl" alt="robot-head"/>
+      <ColaplsibleSection>
+        <div class="preview-content">
+          <div class="top-row">
+            <img :src="selectedParts.head.imageUrl" alt="robot-head"/>
+          </div>
+          <div class="middle-row">
+            <img :src="selectedParts.leftArm.imageUrl" class="rotate-left" alt="robot-left-arm"/>
+            <img :src="selectedParts.torso.imageUrl" alt="robot-torso"/>
+            <img :src="selectedParts.rightArm.imageUrl" class="rotate-right" alt="robot-right-arm"/>
+          </div>
+          <div class="bottom-row">
+            <img :src="selectedParts.base.imageUrl" alt="robot-base"/>
+          </div>
         </div>
-        <div class="middle-row">
-          <img :src="selectedParts.leftArm.imageUrl" class="rotate-left" alt="robot-left-arm"/>
-          <img :src="selectedParts.torso.imageUrl" alt="robot-torso"/>
-          <img :src="selectedParts.rightArm.imageUrl" class="rotate-right" alt="robot-right-arm"/>
-        </div>
-        <div class="bottom-row">
-          <img :src="selectedParts.base.imageUrl" alt="robot-base"/>
-        </div>
-      </div>
-      <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
+      </ColaplsibleSection>
+    <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     </div>
     <div class="top-row">
       <div class="part-title">
@@ -67,6 +69,7 @@ import { computed, ref, onMounted } from 'vue';
 import parts from '../data/parts';
 import { toCurrency } from '../shared/formatters';
 import PartSelector from './PartSelector.vue';
+import ColaplsibleSection from '../shared/ColaplsibleSection.vue';
 
 onMounted(() => console.log('onMounted: executed'));
 
