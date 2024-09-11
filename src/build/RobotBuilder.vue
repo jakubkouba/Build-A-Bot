@@ -2,6 +2,8 @@
   <div class="content">
     <div class="preview">
       <ColaplsibleSection>
+        <template v-slot:collapse>&#x25B2; Hide</template>
+        <template v-slot:expand>&#x25BC; Show</template>
         <div class="preview-content">
           <div class="top-row">
             <img :src="selectedParts.head.imageUrl" alt="robot-head"/>
