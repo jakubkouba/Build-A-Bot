@@ -1,6 +1,15 @@
 <template>
   <div class="part" :class="position">
-    <img :src="selectedPart.imageUrl" alt="left arm" />
+    <router-link
+      :to="{
+        name: 'PartInfo',
+        params: {
+          partType: selectedPart.type,
+          id: selectedPart.id,
+        }
+    }">
+      <img :src="selectedPart.imageUrl" alt="left arm" />
+    </router-link>
     <button @click="selectPreviousPart()" class="prev-selector"></button>
     <button @click="selectNextPart()" class="next-selector"></button>
   </div>
