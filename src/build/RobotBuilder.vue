@@ -50,33 +50,22 @@
         @partSelected="part => selectedParts.base = part"
       />
     </div>
-    <h1>Cart</h1>
-    <table>
-      <thead>
-        <th>Title</th>
-        <th>Cost</th>
-      </thead>
-      <tbody>
-        <tr v-for="(parts, index) in cart" :key="index">
-          <td>{{ parts.head.title }}</td>
-          <td class="cost">{{ toCurrency(parts.cost) }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <h3>Last Robot Cost: {{ lastRobotCost }}</h3>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+import useCartStore from '@/stores/cartStore';
+import { storeToRefs } from 'pinia';
 import parts from '../data/parts';
-import { toCurrency } from '../shared/formatters';
 import PartSelector from './PartSelector.vue';
 import ColaplsibleSection from '../shared/ColaplsibleSection.vue';
 
 onMounted(() => console.log('onMounted: executed'));
 
 const availableParts = parts;
-const cart = ref([]);
+const { cart, lastRobotCost } = storeToRefs(useCartStore());
 
 const selectedParts = ref({
   head: {},
@@ -86,7 +75,7 @@ const selectedParts = ref({
   rightArm: {},
 });
 
-const headBorderColor = computed(() => (selectedParts.value.head.onSale ? 'red' : 'gray'));
+// const headBorderColor = computed(() => (selectedParts.value.head.onSale ? 'red' : 'gray'));
 
 const addToCart = () => {
   const cost = selectedParts.value.head.cost +
@@ -95,7 +84,7 @@ const addToCart = () => {
     selectedParts.value.rightArm.cost +
     selectedParts.value.base.cost;
   cart.value.push({ ...selectedParts.value, cost });
-  console.log(cart.value);
+  lastRobotCost.value = cost;
 };
 </script>
 
@@ -108,7 +97,7 @@ const addToCart = () => {
 }
 
 .top.part {
-  border: 3px solid v-bind(headBorderColor);
+  border: 3px solid gray;
 }
 
 .sale-border {
