@@ -50,14 +50,12 @@
         @partSelected="part => selectedParts.base = part"
       />
     </div>
-    <h3>Last Robot Cost: {{ lastRobotCost }}</h3>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import useCartStore from '@/stores/cartStore';
-import { storeToRefs } from 'pinia';
 import parts from '../data/parts';
 import PartSelector from './PartSelector.vue';
 import ColaplsibleSection from '../shared/ColaplsibleSection.vue';
@@ -65,7 +63,7 @@ import ColaplsibleSection from '../shared/ColaplsibleSection.vue';
 onMounted(() => console.log('onMounted: executed'));
 
 const availableParts = parts;
-const { cart, lastRobotCost } = storeToRefs(useCartStore());
+const cartStore = useCartStore();
 
 const selectedParts = ref({
   head: {},
@@ -83,8 +81,7 @@ const addToCart = () => {
     selectedParts.value.torso.cost +
     selectedParts.value.rightArm.cost +
     selectedParts.value.base.cost;
-  cart.value.push({ ...selectedParts.value, cost });
-  lastRobotCost.value = cost;
+  cartStore.cart.push({ ...selectedParts.value, cost });
 };
 </script>
 

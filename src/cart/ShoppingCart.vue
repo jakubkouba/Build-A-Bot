@@ -21,10 +21,13 @@
             {{ toCurrency(robot.cost) }}
           </td>
         </tr>
+        <tr class="total">
+          <td>Total</td>
+          <td>{{ toCurrency(cartStore.cartTotal) }}</td>
+        </tr>
       </tbody>
     </table>
   </div>
-  <h3>Last Robot Cost: {{ cartStore.lastRobotCost }}</h3>
 </template>
 
 <script setup>
