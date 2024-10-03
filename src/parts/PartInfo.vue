@@ -8,11 +8,17 @@
 
 <script setup>
 import { computed } from 'vue';
-import parts from '@/data/parts';
+import usePartsStore from '@/stores/partsStore';
 
 const props = defineProps(['partType', 'id']);
+const partsStore = usePartsStore();
 
-const part = computed(() => parts[props.partType].find((_part) => _part.id === +props.id));
+partsStore.getParts();
+
+const part = computed(() => {
+  const typeList = partsStore.parts[props.partType];
+  return typeList.find((_part) => _part.id === +props.id);
+});
 </script>
 
 <style scoped lang="scss">
